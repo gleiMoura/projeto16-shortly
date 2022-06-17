@@ -29,4 +29,12 @@ export async function getUserId (req, res) {
 
 export async function getRanking(req,res) {
 
+    const urlsByUser = db.query(`SELECT usr.id, usr.name, COUNT(u.id) AS 'linksCount', SUM(u.'visitCOunt') AS 'visitCount'
+    FROM urls u
+    JOIN users usr ON u.'userId'=user.id
+    GROUP BY usr.id
+    ORDER BY 'visitCount' DESC
+    LIMIT 10`);
+
+    res.send(urlsByUser.rows);
 }
