@@ -19,7 +19,23 @@ export async function shortenURL(req,res) {
 }
 
 export async function getURLById(req,res) {
-    
+    const {id} = req.params;
+
+    try{
+        const thisUrl = db.query(`SELECT * FORM urls WHERE id=$1`, [id]);
+        if(!thisUrl.rowCount === 0) {
+            res.sendStatus(404)
+        }
+
+        const {url} = thisUrl.rows;
+        delete url.visitCount;
+        delete url.userId;
+
+        res.send(url);
+    }catch (error){
+        console.log(error)
+        return res.sendStatus(500);
+    }
 }
 
 export async function deleteURL(req,res) {
