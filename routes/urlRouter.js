@@ -1,6 +1,7 @@
 import { Router } from "express";
 import urlSchema from "../schemas/urlSchema.js";
 import {validateSchema} from '../middlewares/schemaValidator.js'
+
 const urlsRouter = Router();
 
 urlsRouter.post("/urls/shorten", validateSchema(urlSchema). validateToken, shortenURL);
